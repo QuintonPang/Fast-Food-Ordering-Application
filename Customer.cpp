@@ -378,26 +378,22 @@ void updateValue(string cardNo, double newValue) {
 
 }
 
-void cardTopUp(string passedInCardNo)
-{
-	double balance = 0.0; //should be call out
-	string id;
-	bool validInput = false;
-	bool validID = false;
 
-
+void cardTopUp(string passedInCardNo) {
+	double balance = 0.0;
 	string cardNo;
-	if (passedInCardNo.length()>0) {
+	bool validInput = false;
+
+	if (passedInCardNo.length() > 0) {
 		cardNo = passedInCardNo;
 	}
 	else {
-		cout << "Please enter your card number to proceed: ";;
+		cout << "Please enter your card number to proceed: ";
 		cin >> cardNo;
 	}
-	
+
 	while (cardNo.length() != 9) {
-		cout << "Invalid format! ";
-		cout << "Please enter your card number again: ";;
+		cout << "Invalid format! Please enter your card number again: ";
 		cin >> cardNo;
 	}
 
@@ -408,43 +404,35 @@ void cardTopUp(string passedInCardNo)
 		ifstream fileInput;
 		fileInput.open("member.txt");
 		string line;
-		unsigned int curLine = 0;
+
 		while (getline(fileInput, line)) {
-			//cout << line.find("ABC000002") << endl;
-			//cout << cardNo << endl;
-			if (line.find(cardNo, 0) != string::npos) {
+			if (line.find(cardNo) != string::npos) {
 				deleteLine = line;
-				//	cout << "FOUND";
-				if(passedInCardNo.length() <= 0)cout << "\nMember found\n";
+				if (passedInCardNo.empty()) {
+					cout << "\nMember found\n";
+				}
 				flagToProceed = true;
-				//cout << "FOUNDDD";
 				break;
 			}
-			else {
-
-
-			}
-
-
-
 		}
-		if (flagToProceed) break;
-		cout << "NOT FOUND!\n";
-		cout << "Please enter your card number again: ";
+
 		fileInput.close();
-		// string cardNo;
-		cin >> cardNo;
-		while (cardNo.length() != 9) {
-			cout << "Invalid format! ";
-			cout << "Please enter your card number again: ";;
+
+		if (!flagToProceed) {
+			cout << "NOT FOUND!\n";
+			cout << "Please enter your card number again: ";
 			cin >> cardNo;
+			while (cardNo.length() != 9) {
+				cout << "Invalid format! Please enter your card number again: ";
+				cin >> cardNo;
+			}
 		}
 	}
+
 	balance = getCurrentTopUpValueFromFile(cardNo);
 	int topupamount = 0;
 	string confirmation;
 	string conttopup;
-	bool validConfirmation = false;
 
 	do {
 	menu:
@@ -463,41 +451,49 @@ void cardTopUp(string passedInCardNo)
 
 		int choice = 0;
 		string input;
-
-		cout << "Enter your choice (1-4): ";
+		bool displayPrompt = true;
 
 		while (true) {
+			
 			getline(cin, input);
 
-			// Create a stringstream to convert the input to an integer
+			if (input.empty()) {
+				cout << "Please enter a valid choice (1-4): ";
+				displayPrompt = true;
+				continue;
+			}
+
 			stringstream ss(input);
-			if (ss >> choice && ss.eof()) {
-				// Input is a valid integer between 1 and 4
+			if (ss >> choice && ss.eof() && choice >= 1 && choice <= 4) {
 				break;
 			}
 			else {
-				// Input is invalid, prompt for valid input
 				cout << "Invalid input! Please enter a valid choice (1-4): ";
+				displayPrompt = true;
 			}
 		}
 
 		switch (choice) {
 		case 1:
-			topupamount = 5;
+		case 2:
+		case 3:
+		case 4:
+			topupamount = (choice == 1) ? 5 : ((choice == 2) ? 10 : ((choice == 3) ? 30 : 50));
 			cout << "\n\nNotice: RM0.50 will be deducted for service charges." << endl;
 			cout << "Confirm to top up RM" << topupamount << " into your membership card? \n\nYES(Y) or NO(N)  >> ";
 			cin >> confirmation;
-			while (!validConfirmation) {
+
+			while (true) {
 				if (confirmation == "Y" || confirmation == "y") {
 					system("CLS");
 					validInput = true;
-					validConfirmation = true;
+					cin.clear();
 					goto displayBalance;
 					break;
 				}
 				else if (confirmation == "N" || confirmation == "n") {
 					system("CLS");
-					validConfirmation = true;
+					cin.clear();
 					goto conttopup;
 					break;
 				}
@@ -508,130 +504,43 @@ void cardTopUp(string passedInCardNo)
 				}
 			}
 			break;
-		case 2:
-			topupamount = 10;
-			cout << "\n\nNotice: RM0.50 will be deducted for service charges." << endl;
-			cout << "Confirm to top up RM" << topupamount << " into your membership card? \n\nYES(Y) or NO(N)  >> ";
-			cin >> confirmation;
-			while (!validConfirmation) {
-				if (confirmation == "Y" || confirmation == "y") {
-					system("CLS");
-					validInput = true;
-					validConfirmation = true;
-					goto displayBalance;
-					break;
-				}
-				else if (confirmation == "N" || confirmation == "n") {
-					system("CLS");
-					validConfirmation = true;
-					goto conttopup;
-					break;
-				}
-				else {
-					cout << "Invalid input!\n";
-					cout << "Confirm to top up RM" << topupamount << " into your membership card? \nYES(Y) or NO(N)  >> ";
-					cin >> confirmation;
-				}
-			}
-		case 3:
-			topupamount = 30;
-			cout << "\n\nNotice: RM0.50 will be deducted for service charges." << endl;
-			cout << "Confirm to top up RM" << topupamount << " into your membership card? \n\nYES(Y) or NO(N)  >> ";
-			cin >> confirmation;
-			while (!validConfirmation) {
-				if (confirmation == "Y" || confirmation == "y") {
-					system("CLS");
-					validInput = true;
-					validConfirmation = true;
-					goto displayBalance;
-					break;
-				}
-				else if (confirmation == "N" || confirmation == "n") {
-					system("CLS");
-					validConfirmation = true;
-					goto conttopup;
-					break;
-				}
-				else {
-					cout << "Invalid input!\n";
-					cout << "Confirm to top up RM" << topupamount << " into your membership card? \nYES(Y) or NO(N)  >> ";
-					cin >> confirmation;
-				}
-			}
-		case 4:
-			topupamount = 50;
-			cout << "\n\nNotice: RM0.50 will be deducted for service charges." << endl;
-			cout << "Confirm to top up RM" << topupamount << " into your membership card? \n\nYES(Y) or NO(N)  >> ";
-			cin >> confirmation;
-			while (!validConfirmation) {
-				if (confirmation == "Y" || confirmation == "y") {
-					system("CLS");
-					validInput = true;
-					validConfirmation = true;
-					goto displayBalance;
-					break;
-				}
-				else if (confirmation == "N" || confirmation == "n") {
-					system("CLS");
-					validConfirmation = true;
-					goto conttopup;
-					break;
-				}
-				else {
-					cout << "Invalid input!\n";
-					cout << "Confirm to top up RM" << topupamount << " into your membership card? \nYES(Y) or NO(N)  >> ";
-					cin >> confirmation;
-				}
-			}
 		default:
 			cin.clear();
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			system("CLS");
-			cout << "\nInvalid Amount! Please select amount from the list!\n\n\n";
+			cout << "\nInvalid Amount! Please select an amount from the list!\n\n\n";
 			validInput = false;
 			break;
 		}
 	} while (!validInput);
 
-
-
-
-
-	//	if (confirmation !="Y" && confirmation != "y") {
 conttopup:
 	cout << "Do you want to continue to top up? (Y/N) >> ";
 	cin >> conttopup;
 
 	if (conttopup == "N" || conttopup == "n") {
 		cout << "----------------------------------------------------------\n";
-		cout << setw(35)<<right << "TOP UP MODULE END"<<endl;
+		cout << setw(35) << right << "TOP UP MODULE END" << endl;
 		cout << "----------------------------------------------------------\n";
 		system("CLS");
 		return;
 	}
 	else if (conttopup == "Y" || conttopup == "y") {
 		system("CLS");
-
 		goto menu;
 	}
-	else  {
+	else {
 		cout << "Invalid Input!\n";
+		cin.clear();
 		goto conttopup;
 	}
-	//
-		//}
-	//	else {
 
 displayBalance:
-	balance += (double)topupamount - 0.5;
+	balance += topupamount - 0.50;
 	updateValue(cardNo, balance);
-	cout << "\nYou have successfully top up RM" << topupamount << " into your membership card (" << cardNo << ") !" << endl;
+	cout << "\nYou have successfully topped up RM" << topupamount << " into your membership card (" << cardNo << ") !" << endl;
 	cout << "---------------------------------------" << endl;
-	cout << "|Balance : RM" << setw(26) << left << fixed << setprecision(2) << showpoint << balance << "|" << endl;
+	cout << "| Balance : RM" << setw(26) << left << fixed << setprecision(2) << showpoint << balance << "|" << endl;
 	cout << "---------------------------------------" << endl;
 	goto conttopup;
-	//}
-	//return balance;
-
-
 }
