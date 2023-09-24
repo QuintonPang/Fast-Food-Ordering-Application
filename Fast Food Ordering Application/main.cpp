@@ -7,6 +7,8 @@
 #include "Food.h"
 #include "Customer.h"
 #include <stdlib.h>
+#define QUANTITY_MAX_LEN 2
+#define CHOICE_MAX_LEN 1
 using namespace std;
 
 void centerify_output(std::string str, int num_cols) {
@@ -128,7 +130,9 @@ int main() {
 
             // Check if the entire input is a valid integer
             if (input.find_first_not_of("0123456789") == string::npos) {
-                menuChoice = stoi(input);
+                if (input.length() > CHOICE_MAX_LEN) menuChoice = 99;
+                else menuChoice = stoi(input);
+              
 
                 // Check if it's within the specified range
                 if (menuChoice >= 0 && menuChoice < 4) {

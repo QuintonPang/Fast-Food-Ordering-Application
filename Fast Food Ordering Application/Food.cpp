@@ -7,7 +7,8 @@
 #include <cmath>
 #include <iostream>
 #include <stdlib.h>
-
+#define QUANTITY_MAX_LEN 2
+#define CHOICE_MAX_LEN 1
 #define COLUMN_WIDTH 25
 
 using namespace std;
@@ -209,8 +210,9 @@ void payment(vector<Food>foods, vector<int>orders, int orderChoice) {
 	if (selection == 1) {
 
 		double value = currentValue - total;
-
+		double newPoint = total;
 		updateValue(cardNo, value);
+		updatePoint(cardNo, newPoint);
 	}
 	// use membership point to purchase
 	else if (selection == 2) {
@@ -352,7 +354,8 @@ void foodSelection() {
 					}
 
 					if (validInput) {
-						choice = stoi(input);
+						if (input.length() > CHOICE_MAX_LEN) choice = 99;
+						else choice = stoi(input);
 						if (choice < 0 || choice > set_foods.size()) {
 							validInput = false;
 						}
@@ -381,14 +384,17 @@ void foodSelection() {
 					}
 
 					if (validInput) {
-						quantity = stoi(input);
-						if (quantity <= 0) {
+						if (input.length() > QUANTITY_MAX_LEN) quantity = 999;
+						else quantity = stoi(input);
+						if (quantity <= 0 || quantity > 99) {
 							validInput = false;
 						}
 					}
 
 					if (!validInput) {
-						cout << "Invalid quantity. Please enter a valid positive number." << endl;
+						
+						cout << "Invalid quantity. Please enter a valid positive number less than 100." << endl;
+
 						cin.clear();
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					}
@@ -442,7 +448,8 @@ void foodSelection() {
 						}
 					}
 					if(validInput){
-						choice = stoi(input);
+						if (input.length() > CHOICE_MAX_LEN) choice = 99;
+						else choice = stoi(input);
 						if ((choice > 6 || choice < 4) && (choice <= set_foods.size() || choice > set_foods.size() + ala_carte_foods.size())) {
 							validInput = false;
 						}
@@ -471,14 +478,15 @@ void foodSelection() {
 					}
 
 					if (validInput) {
-						quantity = stoi(input);
-						if (quantity <= 0) {
+						if (input.length() > QUANTITY_MAX_LEN) quantity = 999;
+						else quantity = stoi(input);
+						if (quantity <= 0 || quantity > 99) {
 							validInput = false;
 						}
 					}
 
 					if (!validInput) {
-						cout << "Invalid quantity. Please enter a valid positive number." << endl;
+						cout << "Invalid quantity. Please enter a valid positive number less than 100." << endl;
 						cin.clear();
 						cin.ignore(numeric_limits<streamsize>::max(), '\n');
 					}
@@ -520,7 +528,8 @@ void foodSelection() {
 							}
 						}
 						if (validInput) {
-							choiceToDelete = stoi(input);
+							if (input.length() > CHOICE_MAX_LEN) choiceToDelete = 99;
+							else choiceToDelete = stoi(input);
 							if (choiceToDelete < 0 || (choiceToDelete != 0 && std::find(orders.begin(), orders.end(), choiceToDelete) == orders.end())) {
 								validInput = false;
 							}
@@ -547,19 +556,32 @@ void foodSelection() {
 						for (char c : input) {
 							if (!isdigit(c)) {
 								validInput = false;
+								// reset quantity 
+								quantityToDelete = 0;
+							
 								break;
 							}
 						}
 
 						if (validInput) {
-							quantityToDelete = stoi(input);
-							if (quantityToDelete < 0) {
+							cout << input.length();
+							if (input.length() > QUANTITY_MAX_LEN) quantityToDelete = 999;
+							else quantityToDelete = stoi(input);
+							if (quantityToDelete < 0 || quantityToDelete>count) {
 								validInput = false;
 							}
 						}
 
 						if (!validInput) {
-							cout << "Invalid quantity. Please enter a valid positive number." << endl;
+							if (quantityToDelete > count) {
+						
+
+								cout << "Invalid quantity. Quantity to be deleted is larger than the quantity ordered." << endl;
+							}
+							else {
+								cout << "Invalid quantity. Please enter a valid positive number." << endl;
+
+							}
 							cin.clear();
 							cin.ignore(numeric_limits<streamsize>::max(), '\n');
 						}

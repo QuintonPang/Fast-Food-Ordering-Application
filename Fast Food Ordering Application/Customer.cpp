@@ -64,7 +64,7 @@ Customer registerCustomer() {
 
 	bool validateName = false;
 	while (!validateName) {
-		cout << "Name (Only letter accepted): ";
+		cout << "Name (Only letters accepted): ";
 	getline(cin, name);
 	if (name.length() > 50) {
 		cout << "Please register with a shorter name\n";

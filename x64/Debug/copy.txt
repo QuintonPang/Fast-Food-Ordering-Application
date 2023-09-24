@@ -1,0 +1,3 @@
+                  Customer Name                          Card Number            Contact Number          Membership Point               Value          
+                     quinton                              ABC000002               02131321321                   0                    25.000000        
+                     Quinton                              ABC000001               0193903300                    0                    8.500000         
