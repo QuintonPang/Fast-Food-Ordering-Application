@@ -1,2 +1,3 @@
                   Customer Name                          Card Number            Contact Number          Membership Point               Value          
                      quinton                              ABC000001               0193903300                  6822                   6.500000         
+                     quinton                              ABC000005               0193903300                  6822                   6.500000         
