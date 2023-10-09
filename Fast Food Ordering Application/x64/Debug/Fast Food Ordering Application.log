@@ -1,3 +1,4 @@
 ﻿  main.cpp
-C:\Users\quint\source\repos\Fast Food Ordering Application\Fast Food Ordering Application\main.cpp(16,57): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  Fast Food Ordering Application.vcxproj -> C:\Users\quint\source\repos\Fast Food Ordering Application\x64\Debug\Fast Food Ordering Application.exe
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\include\string_view(13): warning STL4038: The contents of <string_view> are available only with C++17 or later.
+C:\Users\highg\source\repos\Fast-Food-Ordering-Application\Fast Food Ordering Application\main.cpp(28,22): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Fast Food Ordering Application.vcxproj -> C:\Users\highg\source\repos\Fast-Food-Ordering-Application\x64\Debug\Fast Food Ordering Application.exe
