@@ -15,6 +15,14 @@
 #define CHOICE_MAX_LEN 1
 using namespace std;
 
+inline std::string trim(const std::string& s)
+{
+    auto wsfront = std::find_if_not(s.begin(), s.end(), [](int c) {return std::isspace(c); });
+    auto wsback = std::find_if_not(s.rbegin(), s.rend(), [](int c) {return std::isspace(c); }).base();
+    return (wsback <= wsfront ? std::string() : std::string(wsfront, wsback));
+}
+void sort();
+
 void centerify_output(std::string str, int num_cols) {
     // Calculate left padding
     int padding_left = (num_cols / 2) - (str.size() / 2);
@@ -35,11 +43,15 @@ inline std::string trim(const std::string& s)
 void sort();
 
 
+
 int main() {
 
     bool flag = true;
     while (flag) {
         int menuChoice;
+
+        // sort member file during the start of each loop
+
         sort();
 
         system("Color E4");
@@ -233,8 +245,8 @@ void sort() {
 
     if (fileOutput.is_open()) {
         lines.insert(lines.begin(), "                  Customer Name                          Card Number            Contact Number          Membership Point               Value          ");
-    //    for (auto i = lines.begin(); i != lines.end(); ++i)
-       //     cout << *i << endl;
+      //  for (auto i = lines.begin(); i != lines.end(); ++i)
+          //  cout << *i << endl;
 
 
         // Write the sorted lines to the output file
