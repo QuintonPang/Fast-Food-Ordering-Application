@@ -1,2 +1,6 @@
                   Customer Name                          Card Number            Contact Number          Membership Point               Value          
                      quinton                              ABC000001               0193903300                  6822                   6.500000         
+                  Yeoh Zhe Heng                           ABC000002               01922211111                  122                  204.000000        
+                     quinton                              ABC000004               0193903300                    0                    25.000000        
+                     Quinton                              ABC000005               0193903300                   92000                 32.000000        
+                     quinton                              ABC000003               0193903300                 312300                  20.000000        
